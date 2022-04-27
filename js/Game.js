@@ -5,7 +5,7 @@ class Game {
     form = new Form();
     form.display();
     player = new Player();
-    playerCount = player.getCount();
+    playerCount = player.getPlayerCount();
   }
   getState(){
     var gameRef = database.ref("gameState");

@@ -26,14 +26,14 @@ class Player {
     });
   }
 
-  getCount() {
+  getPlayerCount() {
     var playerCountRef = database.ref('playerCount');
     playerCountRef.on('value', function (data) {
       playerCount = data.val();
     })
   }
 
-  updateCount(number) {
+  updatePlayerCount(number) {
     database.ref("/").update({
       playerCount: number
     });
