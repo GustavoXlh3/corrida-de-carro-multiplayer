@@ -19,4 +19,15 @@ class Game {
       gameState: state
     })
   }
+
+  handleElements() {
+    form.hide();
+    form.titleImg.class("gameTitleAfterEffect");
+    form.titleImg.position(40, 50);
+  }
+
+  play() {
+    Player.getInfosPlayer();
+    this.handleElements();
+  }
 }

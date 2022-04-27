@@ -63,3 +63,7 @@ canvas {
   transition-duration: 0.4s;
   outline: none;
 }
+
+.gameTitleAfterEffect {
+  width: 25%;
+}

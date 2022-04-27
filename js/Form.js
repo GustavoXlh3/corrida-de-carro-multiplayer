@@ -43,6 +43,7 @@ class Form {
       console.log(playerCount);
       player.updatePlayerCount(playerCount);
       player.name = this.input.value();
+      player.index = playerCount;
       player.addPlayer();
     });
   }
