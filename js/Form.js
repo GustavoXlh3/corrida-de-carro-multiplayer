@@ -39,6 +39,9 @@ class Form {
       // <br> -> quebra de linha
       var message = `Olá, ${this.input.value()} <br> Espere o outro jogador entrar...`;
       this.greeting.html(message);
+      playerCount+=1;
+      console.log(playerCount);
+      player.updatePlayerCount(playerCount);
     });
   }
 }
