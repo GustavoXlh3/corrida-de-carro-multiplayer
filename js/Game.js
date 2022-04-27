@@ -5,5 +5,6 @@ class Game {
     form = new Form();
     form.display();
     player = new Player();
+    playerCount = player.getCount();
   }
 }
