@@ -40,11 +40,11 @@ class Form {
       var message = `Olá, ${this.input.value()} <br> Espere o outro jogador entrar...`;
       this.greeting.html(message);
       playerCount+=1;
-      console.log(playerCount);
       player.updatePlayerCount(playerCount);
       player.name = this.input.value();
       player.index = playerCount;
       player.addPlayer();
+      player.getDistance();
     });
   }
 }

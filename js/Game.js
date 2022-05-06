@@ -43,7 +43,20 @@ class Game {
 
     if(players != undefined) {
       image(trackImg, 0, -height * 5, width, height * 6);
+      var index = 0;
+      for (var player in players){
+        cars[index].position.y = height - players[player].positionY;
+        cars[index].position.x = players[player].positionX;
+      }
     }
+    this.carControler();
     drawSprites();
+  }
+
+  carControler(){
+    if(keyDown(UP_ARROW)){
+      player.positionY += 10;
+      player.update();
+    }
   }
 }

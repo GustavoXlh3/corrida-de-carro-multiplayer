@@ -23,6 +23,7 @@ function setup() {
   game.getState();
   game.start();
   player.getPlayerCount();
+  player.getDistance();
 }
 
 function draw() {

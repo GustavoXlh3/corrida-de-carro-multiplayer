@@ -46,6 +46,24 @@ class Player {
     });
   }
 
+  update(){
+    var updateRef = "player/player"+ this.index;
+    database.ref(updateRef).update({
+      positionX: this.positionX,
+      positionY: this.positionY
+    });
+  }
+
+  getDistance(){
+    var getRef =  database.ref("player/player"+ this.index);
+    getRef.on("value", function (data) {
+      var position = data.val();
+      console.log(position);
+      this.positionX = position.positionX;
+      this.positionY = position.positionY;
+    });
+  }
+
  // Math.round() 
  // Player.getInfosPlayer();
 }
