@@ -47,7 +47,7 @@ class Player {
   }
 
   update(){
-    var updateRef = "player/player"+ this.index;
+    var updateRef = "/players/player"+ this.index;
     database.ref(updateRef).update({
       positionX: this.positionX,
       positionY: this.positionY
@@ -55,10 +55,10 @@ class Player {
   }
 
   getDistance(){
-    var getRef =  database.ref("player/player"+ this.index);
-    getRef.on("value", function (data) {
+    var distanceRef = database.ref("/players/player" + this.index);
+
+    distanceRef.on("value",(data)=> {
       var position = data.val();
-      console.log(position);
       this.positionX = position.positionX;
       this.positionY = position.positionY;
     });

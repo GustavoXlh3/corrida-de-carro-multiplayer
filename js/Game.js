@@ -47,6 +47,7 @@ class Game {
       for (var player in players){
         cars[index].position.y = height - players[player].positionY;
         cars[index].position.x = players[player].positionX;
+        index++;
       }
     }
     this.carControler();

@@ -22,8 +22,6 @@ function setup() {
   game = new Game();
   game.getState();
   game.start();
-  player.getPlayerCount();
-  player.getDistance();
 }
 
 function draw() {
