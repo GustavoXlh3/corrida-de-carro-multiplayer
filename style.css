@@ -67,3 +67,20 @@ canvas {
 .gameTitleAfterEffect {
   width: 25%;
 }
+
+.resetButton {
+  cursor: pointer;
+  width:60px;
+  height:60px;
+  background-image:url("assets/reset.png");
+  background-size:cover;
+  display:inline-block;
+  border-radius:30px;
+}
+
+.resetText {
+  font-size:25px;
+  font-family: vollkorn;
+  text-align: center;
+  color:aqua;
+}

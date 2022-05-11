@@ -1,5 +1,8 @@
 class Game {
-  constructor() {}
+  constructor() {
+    this.resetButton = createButton("");
+    this.resetTitle = createElement("h2");
+  }
 
   start() {
     form = new Form();
@@ -35,11 +38,28 @@ class Game {
     form.hide();
     form.titleImg.class("gameTitleAfterEffect");
     form.titleImg.position(40, 50);
+    this.resetButton.position(width/2+400, 100);
+    this.resetButton.class("resetButton");
+    this.resetTitle.position(width/2+350, 40);
+    this.resetTitle.html("reiniciar jogo");
+    this.resetTitle.class("resetText");
+  }
+
+  handleResetButton() {
+    this.resetButton.mousePressed(() => {
+      database.ref("/").set({
+        gameState: 0,
+        playerCount: 0,
+        players:{},
+      });
+      window.location.reload();
+    })
   }
 
   play() {
     Player.getInfosPlayer();
     this.handleElements();
+    this.handleResetButton();
 
     if(players != undefined) {
       image(trackImg, 0, -height * 5, width, height * 6);
