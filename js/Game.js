@@ -44,10 +44,22 @@ class Game {
     if(players != undefined) {
       image(trackImg, 0, -height * 5, width, height * 6);
       var index = 0;
-      for (var player in players){
-        cars[index].position.y = height - players[player].positionY;
-        cars[index].position.x = players[player].positionX;
+      for (var plr in players){
+        var y = height - players[plr].positionY;
+        var x = players[plr].positionX;
+        cars[index].position.y = y;
+        cars[index].position.x = x;
         index++;
+
+        if(player.index == index) {
+          fill('red');
+          ellipse(x, y, 60, 60);
+          camera.position.x = width/2;
+
+          if(players[plr].positionY > height) {
+            camera.position.y = y;
+          }
+        }
       }
     }
     this.carControler();
