@@ -23,6 +23,27 @@ class Game {
     
     //array
     cars = [car1, car2];
+    var fuelGroup = new Group();
+    var coinGroup = new Group();
+    var obstaclesGroup = new Group();
+
+    var obstaclesPositions = [
+      { x: width / 2 + 250, y: height - 800, image: obstacle2Img },
+      { x: width / 2 - 150, y: height - 1300, image: obstacle1Img },
+      { x: width / 2 + 250, y: height - 1800, image: obstacle1Img },
+      { x: width / 2 - 180, y: height - 2300, image: obstacle2Img },
+      { x: width / 2, y: height - 2800, image: obstacle2Img },
+      { x: width / 2 - 180, y: height - 3300, image: obstacle1Img },
+      { x: width / 2 + 180, y: height - 3300, image: obstacle2Img },
+      { x: width / 2 + 250, y: height - 3800, image: obstacle2Img },
+      { x: width / 2 - 150, y: height - 4300, image: obstacle1Img },
+      { x: width / 2 + 250, y: height - 4800, image: obstacle2Img },
+      { x: width / 2, y: height - 5300, image: obstacle1Img },
+      { x: width / 2 - 180, y: height - 5500, image: obstacle2Img },
+    ];
+    this.addSprites(obstaclesGroup, obstaclesPositions.length, obstacle1Img, 0.04, obstaclesPositions);
+    this.addSprites(fuelGroup, 12, fuelImg, 0.02);
+    this.addSprites(coinGroup, 20, goldCoinImg, 0.05);
   }
   getState(){
     var gameRef = database.ref("gameState");
@@ -40,7 +61,7 @@ class Game {
   handleElements() {
     form.hide();
     form.titleImg.class("gameTitleAfterEffect");
-    form.titleImg.position(40, 50);
+    form.titleImg.position(width/2-170, 50);
     this.resetButton.position(width/2+400, 100);
     this.resetButton.class("resetButton");
     this.resetTitle.position(width/2+350, 40);
@@ -117,6 +138,33 @@ class Game {
     if(keyDown(LEFT_ARROW)){
       player.positionX -= 10;
       player.update();
+    }
+  }
+
+  addSprites(group, numSprites, image, scale, positions = []) {
+    // limite == for
+    // sem limite == while
+    // var resposta = "não";
+    // while (resposta === "não") {
+    //   text("Poderia me dar um óculos VR?");
+    //   resposta = input();
+    // }
+    for (var i = 0; i<numSprites; i++) {
+      var x; 
+      var y;
+      if (positions.length>0) {
+        x = positions[i].x;
+        y = positions[i].y;
+        image = positions[i].image;
+      } else {
+        x = random(width/2+150, width/2 - 150);
+        y = random(-height*4.5, height-400);
+      }
+
+      var sprite = createSprite(x, y);
+      sprite.addImage("sprite", image);
+      sprite.scale = scale;
+      group.add(sprite);
     }
   }
 
