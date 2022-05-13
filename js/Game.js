@@ -91,5 +91,17 @@ class Game {
       player.positionY += 10;
       player.update();
     }
+    if(keyDown(DOWN_ARROW)){
+      player.positionY -= 10;
+      player.update();
+    }
+    if(keyDown(RIGHT_ARROW)){
+      player.positionX += 10;
+      player.update();
+    }
+    if(keyDown(LEFT_ARROW)){
+      player.positionX -= 10;
+      player.update();
+    }
   }
 }
