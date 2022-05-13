@@ -84,3 +84,10 @@ canvas {
   text-align: center;
   color:aqua;
 }
+
+.leadersText {
+  font-size : 20px;
+  font-family : vollkorn;
+  color : white;
+  text-align : center;
+}
