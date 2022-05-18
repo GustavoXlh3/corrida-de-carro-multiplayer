@@ -9,6 +9,7 @@ var players;
 var trackImg;
 var cars, car1, car2, car1Img, car2Img;
 var fuelImg, goldCoinImg, lifeImg, obstacle1Img, obstacle2Img, blastImg;
+var coinGroup, obstaclesGroup, fuelGroup;
 
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");

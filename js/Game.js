@@ -5,6 +5,7 @@ class Game {
     this.leaderTitle = createElement("h2");
     this.leader1 = createElement("h2");
     this.leader2 = createElement("h2");
+    this.isMoving = false;
   }
 
   start() {
@@ -23,9 +24,9 @@ class Game {
     
     //array
     cars = [car1, car2];
-    var fuelGroup = new Group();
-    var coinGroup = new Group();
-    var obstaclesGroup = new Group();
+    fuelGroup = new Group();
+    coinGroup = new Group();
+    obstaclesGroup = new Group();
 
     var obstaclesPositions = [
       { x: width / 2 + 250, y: height - 800, image: obstacle2Img },
@@ -91,6 +92,32 @@ class Game {
     })
   }
 
+  handleCoin(index){
+    // .collide .isTouching
+    // callback
+    cars[index - 1].overlap(coinGroup, (car, coin) => {
+      player.score += 10;
+      player.update();
+      coin.remove();
+    });
+  }
+  
+  handleFuel(index){
+    cars[index - 1].overlap(fuelGroup, (car,fuel) => {
+      player.fuel = 185;
+      player.update();
+      fuel.remove();
+    });
+    if (this.isMoving){
+      player.fuel--;
+      this.isMoving = false;
+    }
+    if (player.fuel <= 0){
+      gameState = 2;
+      this.gameOver();
+    }
+  }
+
   play() {
     Player.getInfosPlayer();
     this.handleElements();
@@ -100,6 +127,8 @@ class Game {
       image(trackImg, 0, -height * 5, width, height * 6);
       var index = 0;
       this.showLeaderboard();
+      this.showLifeBar();
+      this.showFuelBar();
       for (var plr in players){
         var y = height - players[plr].positionY;
         var x = players[plr].positionX;
@@ -111,7 +140,8 @@ class Game {
           fill('red');
           ellipse(x, y, 60, 60);
           camera.position.x = width/2;
-          
+          this.handleCoin(index);
+          this.handleFuel(index);
           if(players[plr].positionY > height) {
             camera.position.y = y;
           }
@@ -126,10 +156,12 @@ class Game {
     if(keyDown(UP_ARROW)){
       player.positionY += 10;
       player.update();
+      this.isMoving = true;
     }
     if(keyDown(DOWN_ARROW)){
       player.positionY -= 10;
       player.update();
+      this.isMoving = true;
     }
     if(keyDown(RIGHT_ARROW)){
       player.positionX += 10;
@@ -201,5 +233,59 @@ class Game {
 
     this.leader1.html(leader1);
     this.leader2.html(leader2);
+  }
+
+  showFuelBar() {
+    push();
+    fill("white");
+    rect(player.positionX - 100, height - player.positionY - 100, 185, 20);
+    fill("#ffc400");
+    rect(
+      player.positionX - 100,
+      height - player.positionY - 100,
+      player.fuel,
+      20
+    );
+    pop();
+    image(
+      fuelImg,
+      player.positionX - 120,
+      height - player.positionY - 100,
+      20,
+      20
+    );
+  }
+
+  showLifeBar() {
+    push();
+    fill("white");
+    rect(player.positionX - 100, height - player.positionY - 130, 185, 20);
+    fill("#d4002a");
+    rect(
+      player.positionX - 100,
+      height - player.positionY - 130,
+      player.life,
+      20
+    );
+    pop();
+    image(
+      lifeImg,
+      player.positionX - 120,
+      height - player.positionY - 130,
+      20,
+      20
+    );
+    
+  }
+
+  gameOver() {
+    swal({
+      title: `fim de jogo!`,
+      text: "Oops! Você perdeu a corrida!",
+      imageUrl:
+        "https://cdn.shopify.com/s/files/1/1061/1924/products/Thumbs_Down_Sign_Emoji_Icon_ios10_grande.png",
+      imageSize: "100x100",
+      confirmButtonText: "obrigado por jogar!",
+    });
   }
 }
