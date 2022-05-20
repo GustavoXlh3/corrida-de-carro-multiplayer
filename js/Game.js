@@ -6,6 +6,8 @@ class Game {
     this.leader1 = createElement("h2");
     this.leader2 = createElement("h2");
     this.isMoving = false;
+    this.keyLeft = false;
+    this.movable = true;
   }
 
   start() {
@@ -16,10 +18,12 @@ class Game {
 
     car1 = createSprite(width/2-100, height-50);
     car1.addImage(car1Img);
+    car1.addImage("boom",blastImg);
     car1.scale = 0.07;
     
     car2 = createSprite(width/2+100, height-50);
     car2.addImage(car2Img);
+    car2.addImage("boom",blastImg);
     car2.scale = 0.07;
     
     //array
@@ -46,6 +50,7 @@ class Game {
     this.addSprites(fuelGroup, 12, fuelImg, 0.02);
     this.addSprites(coinGroup, 20, goldCoinImg, 0.05);
   }
+
   getState(){
     var gameRef = database.ref("gameState");
     gameRef.on("value", (data) => {
@@ -57,6 +62,20 @@ class Game {
     database.ref("/").update({
       gameState: state
     })
+  }
+
+  obstacleCollide(index){
+    if (cars[index].collide(obstaclesGroup)){
+      if (player.life > 0){
+        player.life -= 185/4;
+      }
+      if (this.keyLeft){
+        player.positionX += 100;
+      }else{
+        player.positionX -= 100;
+      }
+      player.update();
+    }
   }
 
   handleElements() {
@@ -95,7 +114,7 @@ class Game {
   handleCoin(index){
     // .collide .isTouching
     // callback
-    cars[index - 1].overlap(coinGroup, (car, coin) => {
+      cars[index - 1].overlap(coinGroup, (car, coin) => {
       player.score += 10;
       player.update();
       coin.remove();
@@ -140,8 +159,14 @@ class Game {
       for (var plr in players){
         var y = height - players[plr].positionY;
         var x = players[plr].positionX;
+        var currentLife = players[plr].life;
         cars[index].position.y = y;
         cars[index].position.x = x;
+        if (currentLife <= 0){
+          cars[index].changeImage("boom");
+          cars[index].scale = 0.3;
+        }
+
         index++;
 
         if(player.index == index) {
@@ -150,8 +175,15 @@ class Game {
           camera.position.x = width/2;
           this.handleCoin(index);
           this.handleFuel(index);
-          if(players[plr].positionY > height) {
+          this.obstacleCollide(index - 1);
+          if (players[plr].positionY > height) {
             camera.position.y = y;
+          }
+          if (player.life <= 0){
+            this.movable = false;
+            this.isMoving = false;
+            this.gameOver();
+            gameState = 2;
           }
         }
       }
@@ -161,23 +193,27 @@ class Game {
   }
 
   carControler(){
-    if(keyDown(UP_ARROW)){
-      player.positionY += 10;
-      player.update();
-      this.isMoving = true;
-    }
-    if(keyDown(DOWN_ARROW)){
-      player.positionY -= 10;
-      player.update();
-      this.isMoving = true;
-    }
-    if(keyDown(RIGHT_ARROW)){
-      player.positionX += 10;
-      player.update();
-    }
-    if(keyDown(LEFT_ARROW)){
-      player.positionX -= 10;
-      player.update();
+    if (this.movable){
+      if(keyDown(UP_ARROW)){
+        player.positionY += 10;
+        player.update();
+        this.isMoving = true;
+      }
+      if(keyDown(DOWN_ARROW)){
+        player.positionY -= 10;
+        player.update();
+        this.isMoving = true;
+      }
+      if(keyDown(RIGHT_ARROW)){
+        player.positionX += 10;
+        player.update();
+        this.keyLeft = false;
+      }
+      if(keyDown(LEFT_ARROW)){
+        player.positionX -= 10;
+        player.update();
+        this.keyLeft = true;
+      }
     }
   }
 
