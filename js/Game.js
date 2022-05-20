@@ -122,6 +122,14 @@ class Game {
     Player.getInfosPlayer();
     this.handleElements();
     this.handleResetButton();
+    
+    if (player.positionY > height * 6 - 100) {
+      player.rank += 1;
+      Player.updateCarsAtEnd(player.rank);
+      player.update();
+      gameState = 2;
+      this.showRank();
+    }
 
     if(players != undefined) {
       image(trackImg, 0, -height * 5, width, height * 6);
@@ -286,6 +294,17 @@ class Game {
         "https://cdn.shopify.com/s/files/1/1061/1924/products/Thumbs_Down_Sign_Emoji_Icon_ios10_grande.png",
       imageSize: "100x100",
       confirmButtonText: "obrigado por jogar!",
+    });
+  }
+
+  showRank() {
+    swal({
+      title: `Incrível!${"\n"}Rank${"\n"}${player.rank}`,
+      text: "Você alcançou a linha de chegada com sucesso!",
+      imageUrl:
+        "https://raw.githubusercontent.com/vishalgaddam873/p5-multiplayer-car-race-game/master/assets/cup.png",
+      imageSize: "100x100",
+      confirmButtonText: "Ok",
     });
   }
 }
