@@ -13,7 +13,7 @@ var coinGroup, obstaclesGroup, fuelGroup;
 
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
-  trackImg = loadImage('./assets/pista.png');
+  trackImg = loadImage('./assets/pista6.png');
   car1Img = loadImage('./assets/car1.png');
   car2Img = loadImage('./assets/car2.png');
   fuelImg = loadImage("./assets/fuel.png");
